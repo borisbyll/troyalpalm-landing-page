@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TroyalPalm | Hair Growth Excellence</title>
+    <title>TroyalPalm | Excellence Capillaire</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap');
         :root { --brand-green: #1a4332; --brand-gold: #d4af37; --brand-cream: #fdfbf7; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--brand-cream); color: #333; scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--brand-cream); color: #333; scroll-behavior: smooth; overflow-x: hidden; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--brand-green); }
         .bg-brand-green { background-color: var(--brand-green); }
-        .btn-gold { background-color: var(--brand-gold); color: white; transition: 0.3s; cursor: pointer; }
+        .text-brand-gold { color: var(--brand-gold); }
+        .btn-gold { background-color: var(--brand-gold); color: white; transition: 0.3s; cursor: pointer; border-radius: 4px; }
         .btn-gold:hover { opacity: 0.9; transform: translateY(-2px); }
         .lang-active { color: var(--brand-green); font-weight: bold; border-bottom: 2px solid var(--brand-gold); }
-        .hidden-section { display: none; }
+        .hidden-section { display: none !important; }
+        
+        /* Menu Mobile */
+        #mobile-menu { transition: transform 0.3s ease-in-out; transform: translateX(100%); }
+        #mobile-menu.open { transform: translateX(0); }
+        
         .notification { position: fixed; bottom: 20px; right: 20px; background: var(--brand-green); color: white; padding: 15px 25px; border-radius: 8px; display: none; z-index: 1000; animation: slideIn 0.5s ease; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
     </style>
@@ -26,15 +32,17 @@
 
     <nav class="flex items-center justify-between px-6 py-4 bg-white shadow-sm sticky top-0 z-50">
         <div class="flex items-center cursor-pointer" onclick="navigateTo('hero')">
-            <img src="logo.png" alt="Logo" class="h-12 w-auto">
+            <img src="logo.jpg" alt="Logo" class="h-10 md:h-12 w-auto">
         </div>
+
         <div class="hidden md:flex space-x-8 font-medium text-xs tracking-widest">
             <a href="javascript:void(0)" onclick="navigateTo('hero')" data-key="nav-home">ACCUEIL</a>
             <a href="javascript:void(0)" onclick="navigateTo('produit-unique')" data-key="nav-shop">NOTRE PRODUIT</a>
             <a href="javascript:void(0)" onclick="navigateTo('avis')" data-key="nav-reviews">AVIS</a>
         </div>
-        <div class="flex items-center space-x-6">
-            <div class="flex space-x-2 text-xs cursor-pointer border px-3 py-1 rounded-full">
+
+        <div class="flex items-center space-x-4">
+            <div class="hidden sm:flex space-x-2 text-xs cursor-pointer border px-3 py-1 rounded-full">
                 <span id="btn-fr" onclick="changeLang('fr')" class="lang-active">FR</span>
                 <span id="btn-en" onclick="changeLang('en')" class="text-gray-400">EN</span>
             </div>
@@ -42,30 +50,50 @@
                 <i class="fa-solid fa-cart-shopping text-brand-green text-lg"></i>
                 <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-[8px] text-white rounded-full w-4 h-4 flex items-center justify-center font-bold">0</span>
             </div>
+            <button class="md:hidden text-brand-green text-2xl" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
         </div>
     </nav>
 
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-[60] flex flex-col p-8 md:hidden">
+        <div class="flex justify-between items-center mb-12">
+            <img src="logo.jpg" class="h-10">
+            <button class="text-3xl text-brand-green" onclick="toggleMenu()">&times;</button>
+        </div>
+        <div class="flex flex-col space-y-8 text-xl font-serif">
+            <a href="javascript:void(0)" onclick="navigateTo('hero'); toggleMenu()" data-key="nav-home">ACCUEIL</a>
+            <a href="javascript:void(0)" onclick="navigateTo('produit-unique'); toggleMenu()" data-key="nav-shop">NOTRE PRODUIT</a>
+            <a href="javascript:void(0)" onclick="navigateTo('avis'); toggleMenu()" data-key="nav-reviews">AVIS</a>
+        </div>
+        <div class="mt-auto flex space-x-4 border-t pt-8">
+            <span onclick="changeLang('fr'); toggleMenu()" class="font-bold">FRANÇAIS</span>
+            <span class="text-gray-300">|</span>
+            <span onclick="changeLang('en'); toggleMenu()" class="font-bold text-gray-400">ENGLISH</span>
+        </div>
+    </div>
+
     <main id="home-page">
         <section id="hero" class="min-h-[70vh] flex items-center bg-white px-6">
-            <div class="container mx-auto flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-1/2">
+            <div class="container mx-auto flex flex-col md:flex-row items-center gap-12 py-12">
+                <div class="md:w-1/2 text-center md:text-left">
                     <span data-key="hero-tag" class="text-brand-gold font-bold uppercase text-[10px] tracking-widest">Héritage Capillaire</span>
-                    <h1 data-key="hero-title" class="text-5xl md:text-7xl mt-4 mb-6 leading-tight">L'excellence pour vos cheveux afro.</h1>
+                    <h1 data-key="hero-title" class="text-4xl md:text-7xl mt-4 mb-6 leading-tight">L'excellence pour vos cheveux afro.</h1>
                     <p data-key="hero-desc" class="text-gray-600 text-lg mb-8">Une formule puissante à base d'huile de palmiste pour stimuler la croissance.</p>
-                    <button onclick="navigateTo('produit-unique')" data-key="btn-discover" class="btn-gold px-10 py-4 rounded font-bold uppercase text-xs shadow-lg">Découvrir</button>
+                    <button onclick="navigateTo('produit-unique')" data-key="btn-discover" class="btn-gold px-10 py-4 font-bold uppercase text-xs shadow-lg">Découvrir le secret</button>
                 </div>
-                <div class="md:w-1/2"><img src="produits.png" class="rounded-2xl shadow-2xl w-full"></div>
+                <div class="md:w-1/2"><img src="produits.jpg" class="rounded-2xl shadow-2xl w-full"></div>
             </div>
         </section>
 
-        <section id="produit-unique" class="py-24 bg-brand-cream text-center px-6">
+        <section id="produit-unique" class="py-24 bg-brand-cream text-center px-6 border-y">
             <h2 data-key="shop-title" class="text-4xl mb-16 uppercase tracking-widest">Notre Signature</h2>
-            <div class="max-w-4xl mx-auto border bg-white rounded-3xl p-8 shadow-xl flex flex-col md:flex-row items-center gap-12">
-                <img src="produits.png" class="md:w-1/2 rounded-xl">
+            <div class="max-w-4xl mx-auto border bg-white rounded-3xl p-8 md:p-12 shadow-xl flex flex-col md:flex-row items-center gap-12">
+                <img src="produits.jpg" class="w-full md:w-1/2 rounded-xl">
                 <div class="md:w-1/2 text-left">
-                    <h3 data-key="p1-name" class="text-3xl mb-4 italic">Gamme Complète</h3>
+                    <h3 data-key="p1-name" class="text-3xl mb-4 italic">Gamme Complète TroyalPalm</h3>
                     <p class="text-3xl font-bold text-brand-green mb-6">$35.00</p>
-                    <button onclick="showProductDetails()" data-key="btn-view" class="btn-gold w-full py-4 rounded font-bold uppercase text-xs">VOIR LES DÉTAILS</button>
+                    <button onclick="showProductDetails()" data-key="btn-view" class="btn-gold w-full py-4 font-bold uppercase text-xs">VOIR LES DÉTAILS</button>
                 </div>
             </div>
         </section>
@@ -73,40 +101,63 @@
         <section id="avis" class="py-24 bg-white px-6">
             <div class="container mx-auto">
                 <h2 data-key="reviews-title" class="text-4xl text-center mb-16 uppercase tracking-widest">Avis Clients</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div class="bg-brand-cream p-8 rounded-2xl"><p data-key="rev-1" class="italic mb-4">"Incroyable pour la pousse !"</p><p class="font-bold">- Amina</p></div>
-                    <div class="bg-brand-cream p-8 rounded-2xl"><p data-key="rev-2" class="italic mb-4">"Mes cheveux sont plus forts."</p><p class="font-bold">- Jordan</p></div>
-                    <div class="bg-brand-cream p-8 rounded-2xl"><p data-key="rev-3" class="italic mb-4">"L'huile sent divinement bon."</p><p class="font-bold">- Marie</p></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-brand-cream p-8 rounded-2xl text-center border border-gray-100">
+                        <div class="text-brand-gold mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-key="rev-1" class="italic mb-4">"Incroyable pour la pousse ! Mes tempes revivent."</p>
+                        <p class="font-bold text-sm">- Aminata D.</p>
+                    </div>
+                    <div class="bg-brand-cream p-8 rounded-2xl text-center border border-gray-100">
+                        <div class="text-brand-gold mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p data-key="rev-2" class="italic mb-4">"Mes cheveux sont plus forts et brillants."</p>
+                        <p class="font-bold text-sm">- Jordan M.</p>
+                    </div>
+                    <div class="bg-brand-cream p-8 rounded-2xl text-center border border-gray-100">
+                        <div class="text-brand-gold mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                        <p data-key="rev-3" class="italic mb-4">"L'huile scelle très bien l'hydratation."</p>
+                        <p class="font-bold text-sm">- Marie-Claire K.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="newsletter" class="py-20 bg-brand-green text-white text-center px-6">
-            <h2 data-key="news-title" class="text-3xl mb-4">Newsletter</h2>
-            <div class="max-w-md mx-auto flex gap-2">
-                <input type="email" id="news-input" placeholder="Email" class="flex-grow p-4 rounded text-black">
-                <button onclick="subscribe()" data-key="btn-ok" class="btn-gold px-6 rounded font-bold uppercase text-xs">OK</button>
+        <section id="newsletter" class="py-24 bg-brand-green text-white text-center px-6">
+            <h2 data-key="news-title" class="text-3xl mb-4 font-serif">Rejoignez la famille</h2>
+            <p data-key="news-desc" class="mb-8 opacity-80">Inscrivez-vous pour des conseils capillaires exclusifs.</p>
+            <div class="max-w-md mx-auto flex flex-col sm:flex-row gap-2">
+                <input type="email" id="news-input" placeholder="Email" class="flex-grow p-4 rounded text-black outline-none">
+                <button onclick="subscribe()" data-key="btn-ok" class="btn-gold px-8 py-4 font-bold uppercase text-xs">S'ABONNER</button>
             </div>
         </section>
     </main>
 
     <section id="product-page" class="hidden-section py-20 bg-white px-6 min-h-screen">
         <div class="container mx-auto">
-            <button onclick="showHome()" class="mb-8 text-gray-400 hover:text-brand-green flex items-center"><i class="fa-solid fa-arrow-left mr-2"></i> <span data-key="back">Retour</span></button>
+            <button onclick="showHome()" class="mb-12 text-gray-400 hover:text-brand-green flex items-center transition">
+                <i class="fa-solid fa-arrow-left mr-2"></i> <span data-key="back">Retour à l'accueil</span>
+            </button>
             <div class="flex flex-col md:flex-row gap-16 items-center">
-                <img src="produits.png" class="md:w-1/2 rounded-3xl shadow-2xl">
-                <div class="md:w-1/2">
-                    <h2 data-key="p1-name" class="text-5xl mb-6 text-brand-green">Gamme Complète</h2>
+                <img src="produits.jpg" class="w-full md:w-1/2 rounded-3xl shadow-2xl">
+                <div class="w-full md:w-1/2">
+                    <h2 data-key="p1-name" class="text-4xl md:text-5xl mb-6 text-brand-green">Gamme Complète TroyalPalm</h2>
                     <p class="text-4xl font-bold mb-8 text-brand-gold">$35.00</p>
-                    <p data-key="det-desc-1" class="text-gray-600 text-lg mb-10 leading-relaxed">Le soin ancestral pour restaurer la force des cheveux afro.</p>
+                    <div class="space-y-6 text-gray-600 text-lg leading-relaxed mb-10 border-t pt-6">
+                        <p data-key="det-desc-1">Le soin ancestral pour restaurer la force des cheveux afro.</p>
+                        <p data-key="det-desc-2">Formule pure à base de noix de palmiste, idéale pour stopper la casse et booster la croissance.</p>
+                    </div>
                     <div class="flex gap-4">
                         <input type="number" id="prod-qty" value="1" min="1" class="w-20 border-2 rounded-lg p-3 text-center font-bold">
-                        <button onclick="addToCart()" data-key="add-cart" class="btn-gold flex-grow py-4 rounded-lg font-bold uppercase text-sm tracking-widest shadow-xl">AJOUTER AU PANIER</button>
+                        <button onclick="addToCart()" data-key="add-cart" class="btn-gold flex-grow py-4 font-bold uppercase text-sm tracking-widest shadow-xl">AJOUTER AU PANIER</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <footer class="py-12 bg-white border-t text-center">
+        <img src="logo.jpg" class="h-12 mx-auto mb-6 opacity-60">
+        <p class="text-[10px] text-gray-400 tracking-[0.4em] uppercase">© 2026 TROYALPALM - Hair Growth Excellence</p>
+    </footer>
 
     <script>
         const translations = {
@@ -116,9 +167,13 @@
                 "hero-desc": "Une formule puissante à base d'huile de palmiste pour stimuler la croissance.",
                 "btn-discover": "DÉCOUVRIR LE SECRET", "shop-title": "NOTRE SIGNATURE",
                 "p1-name": "Gamme Complète TroyalPalm", "btn-view": "VOIR LES DÉTAILS",
-                "reviews-title": "AVIS CLIENTS", "rev-1": "\"Incroyable pour la pousse !\"", "rev-2": "\"Mes cheveux sont plus forts.\"", "rev-3": "\"L'huile sent divinement bon.\"",
-                "news-title": "Rejoignez la famille", "btn-ok": "S'ABONNER", "back": "Retour", "add-cart": "AJOUTER AU PANIER",
-                "det-desc-1": "Le soin ancestral pour restaurer la force des cheveux afro.", "toast": "Produit ajouté au panier !", "news-success": "Merci pour votre inscription !"
+                "reviews-title": "AVIS CLIENTS", "rev-1": "\"Incroyable pour la pousse ! Mes tempes revivent.\"", 
+                "rev-2": "\"Mes cheveux sont plus forts et brillants.\"", "rev-3": "\"L'huile scelle très bien l'hydratation.\"",
+                "news-title": "Rejoignez la famille", "news-desc": "Inscrivez-vous pour des conseils capillaires exclusifs.",
+                "btn-ok": "S'ABONNER", "back": "Retour à l'accueil", "add-cart": "AJOUTER AU PANIER",
+                "det-desc-1": "Le soin ancestral pour restaurer la force des cheveux afro.",
+                "det-desc-2": "Formule pure à base de noix de palmiste, idéale pour stopper la casse et booster la croissance.",
+                "toast": "Produit ajouté !", "news-success": "Inscription réussie !"
             },
             en: {
                 "nav-home": "HOME", "nav-shop": "OUR PRODUCT", "nav-reviews": "REVIEWS",
@@ -126,14 +181,22 @@
                 "hero-desc": "A powerful formula made from palm kernel oil to stimulate growth.",
                 "btn-discover": "DISCOVER THE SECRET", "shop-title": "OUR SIGNATURE",
                 "p1-name": "TroyalPalm Complete Range", "btn-view": "VIEW DETAILS",
-                "reviews-title": "CUSTOMER REVIEWS", "rev-1": "\"Amazing for growth!\"", "rev-2": "\"My hair feels stronger.\"", "rev-3": "\"The oil smells divine.\"",
-                "news-title": "Join the family", "btn-ok": "SUBSCRIBE", "back": "Back", "add-cart": "ADD TO CART",
-                "det-desc-1": "The ancestral care to restore the strength of afro hair.", "toast": "Product added to cart!", "news-success": "Thank you for subscribing!"
+                "reviews-title": "CUSTOMER REVIEWS", "rev-1": "\"Amazing for growth! My temples are reviving.\"", 
+                "rev-2": "\"My hair feels stronger and shinier.\"", "rev-3": "\"The oil seals in moisture very well.\"",
+                "news-title": "Join the family", "news-desc": "Sign up for exclusive hair care tips.",
+                "btn-ok": "SUBSCRIBE", "back": "Back to Home", "add-cart": "ADD TO CART",
+                "det-desc-1": "The ancestral care to restore the strength of afro hair.",
+                "det-desc-2": "Pure palm kernel formula, ideal for stopping breakage and boosting growth.",
+                "toast": "Added to cart!", "news-success": "Successfully subscribed!"
             }
         };
 
         let lang = 'fr';
         let cart = 0;
+
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        }
 
         function changeLang(l) {
             lang = l;
@@ -144,7 +207,12 @@
 
         function navigateTo(id) {
             showHome();
-            setTimeout(() => document.getElementById(id).scrollIntoView({ behavior: 'smooth' }), 50);
+            setTimeout(() => {
+                const element = document.getElementById(id);
+                if (element) {
+                    window.scrollTo({ top: element.offsetTop - 80, behavior: 'smooth' });
+                }
+            }, 100);
         }
 
         function showProductDetails() {
